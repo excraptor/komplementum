@@ -7,8 +7,9 @@
 # megnezni van e mas komplementum
 
 # calculate every possible partition of a list recursively
+import imp
 from os import remove
-
+from lattice import metszet, egyesites
 
 def partition(collection):
     if len(collection) == 1:
@@ -24,7 +25,7 @@ def partition(collection):
         yield [ [ first ] ] + smaller
 
 
-def komplementum(osztalyozas):
+def komplementum1(osztalyozas):
     # vegigmegyunk az osszes osztalyon
     # mindegyikbol csinalunk ilyen parokat, hogy hozzaveszunk a kovi osztalybol egy elemet
     ret = []
@@ -50,12 +51,6 @@ def komplementum(osztalyozas):
             ret.append([a])
     return ret
 
-# TODO
-def metszet(c1, c2):
-    # ha c2-ben x osztalyaban nincs benne y akkor a metszetben kulon lesznek
-    for osztaly in c1:
-        for elem in osztaly:
-            pass
 
 def maxEgyMetszet(elem, komplementumCandidate):
     for c in komplementumCandidate:
@@ -63,22 +58,74 @@ def maxEgyMetszet(elem, komplementumCandidate):
             if(len(set(c).intersection(set(osztaly))) > 1):
                 return False
     return True
-A = [1,2,3,4,5,6,7]
-partitions = list(partition(A))
+
+def isKomplementum(elem1, elem2):
+    return len(metszet(elem1, elem2)) == 4 and len(egyesites(elem1, elem2)) == 1
+
+def toString(fs: frozenset):
+    s = "{"
+    for fs2 in fs:
+        s+="{"
+        for idx, e in enumerate(fs2):
+            if(idx != len(fs2)-1):
+                s+=str(e)+", "
+            else:
+                s+=str(e)
+        s+="}"
+    s+="}"
+    return s
+
+A = [1,2,3,4]
+partitionsList = list(partition(A))
+partitions = []
+for e in partitionsList:
+    s = set()
+    for fs in e:
+        s.add(frozenset(fs))
+    partitions.append(s)
+print(partitions[3])
+counter = 0
+for i in partitions:
+    if(i != partitions[3]):
+        asd = isKomplementum(partitions[3], i)
+        print(f"{toString(i)}: {asd}")
+        if(asd):
+            counter += 1
+print(f"complements: {counter}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # for x in partition(A):
 #     partitions.append([set(c) for c in x])
-print(partitions)
-print("######")
-elem = [x for x in partitions if len(x) == 4][0]
-k = komplementum(elem)
-print(f"osztalyozas: {elem}")
-print(f"egy komplementum: {k}")
-komplementumCandidates = [x for x in partitions if len(x) == len(k)]
-print(f"lehetseges komplementumok: {komplementumCandidates}")
+# print(partitions)
+# print("######")
+# elem = [x for x in partitions if len(x) == 2][0]
+# k = komplementum(elem)
+# print(f"osztalyozas: {elem}")
+# print(f"egy komplementum: {k}")
+# komplementumCandidates = [x for x in partitions if len(x) == len(k)]
+# print(f"lehetseges komplementumok: {komplementumCandidates}")
 
-candidates = []
-for candidate in komplementumCandidates:
-    if(maxEgyMetszet(elem, candidate)):
-        candidates.append(candidate)
+# candidates = []
+# for candidate in komplementumCandidates:
+#     if(maxEgyMetszet(elem, candidate)):
+#         candidates.append(candidate)
 
-print(f"ezek kozul amire igaz a feltetel: {candidates}")
+# print(f"ezek kozul amire igaz a feltetel: {candidates}")
