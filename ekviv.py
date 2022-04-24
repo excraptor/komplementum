@@ -7,8 +7,12 @@
 # megnezni van e mas komplementum
 
 # calculate every possible partition of a list recursively
+from audioop import tostereo
 from os import remove
-from lattice import metszet, egyesites
+from lattice import metszet, egyesites, kisebb
+from pyvis.network import Network
+
+
 
 def partition(collection):
     if len(collection) == 1:
@@ -74,7 +78,7 @@ def toString(fs: frozenset):
     s+="}"
     return s
 
-A = [1,2,3,4,5,6,7,8]
+A = [1,2,3,4]
 numberOfElements = len(A)
 partitionsList = list(partition(A))
 partitions = []
