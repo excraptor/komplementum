@@ -7,7 +7,6 @@
 # megnezni van e mas komplementum
 
 # calculate every possible partition of a list recursively
-import imp
 from os import remove
 from lattice import metszet, egyesites
 
@@ -60,7 +59,7 @@ def maxEgyMetszet(elem, komplementumCandidate):
     return True
 
 def isKomplementum(elem1, elem2):
-    return len(metszet(elem1, elem2)) == 4 and len(egyesites(elem1, elem2)) == 1
+    return len(metszet(elem1, elem2)) == numberOfElements and len(egyesites(elem1, elem2)) == 1
 
 def toString(fs: frozenset):
     s = "{"
@@ -75,7 +74,8 @@ def toString(fs: frozenset):
     s+="}"
     return s
 
-A = [1,2,3,4]
+A = [1,2,3,4,5,6,7,8]
+numberOfElements = len(A)
 partitionsList = list(partition(A))
 partitions = []
 for e in partitionsList:
@@ -83,15 +83,19 @@ for e in partitionsList:
     for fs in e:
         s.add(frozenset(fs))
     partitions.append(s)
-print(partitions[3])
-counter = 0
-for i in partitions:
-    if(i != partitions[3]):
-        asd = isKomplementum(partitions[3], i)
-        print(f"{toString(i)}: {asd}")
-        if(asd):
-            counter += 1
-print(f"complements: {counter}")
+E = partitions[53]
+
+
+counter = -1
+with open("results.txt", "w") as f:
+    f.write(f"{E}\n")
+    for i in partitions:
+        if(i != E):
+            asd = isKomplementum(E, i)
+            f.write(f"{toString(i)}: {asd}\n")
+            if(asd):
+                counter += 1
+    f.write(f"complements: {counter}\n")
 
 
 
