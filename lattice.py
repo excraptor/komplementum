@@ -6,9 +6,13 @@ def metszet(elem1, elem2):
     res.discard(frozenset())
     return res
 
-def egyesites(elem1, elem2):
+def egyesites(elem1, elem2, numOfElements = -1):
     res = elem1.union(elem2)
-
+    print(f"res: {res}")
+    if(numOfElements == len(elem1)):
+        return elem2
+    elif(numOfElements == len(elem2)):
+        return elem1
     while True:
         current = set()
         for s1 in res:
@@ -26,3 +30,15 @@ def egyesites(elem1, elem2):
     res.discard(frozenset())
     return res
 
+def kisebb(a, b, numOfElements):
+    m = metszet(a, b)
+    e = egyesites(a, b, numOfElements)
+    print(f"metszet: {m}")
+    print(f"egyesites: {e}")
+    if((len(a) == numOfElements and len(b) == 1) or (len(a) == 1 and len(b) == numOfElements)):
+        return False
+    if(m == a and e == b):
+        return True
+    elif (m == b and e == a):
+        return True
+    return False

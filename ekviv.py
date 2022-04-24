@@ -7,9 +7,12 @@
 # megnezni van e mas komplementum
 
 # calculate every possible partition of a list recursively
-import imp
+from audioop import tostereo
 from os import remove
-from lattice import metszet, egyesites
+from lattice import metszet, egyesites, kisebb
+from pyvis.network import Network
+
+
 
 def partition(collection):
     if len(collection) == 1:
@@ -60,7 +63,7 @@ def maxEgyMetszet(elem, komplementumCandidate):
     return True
 
 def isKomplementum(elem1, elem2):
-    return len(metszet(elem1, elem2)) == 4 and len(egyesites(elem1, elem2)) == 1
+    return len(metszet(elem1, elem2)) == numberOfElements and len(egyesites(elem1, elem2)) == 1
 
 def toString(fs: frozenset):
     s = "{"
@@ -76,6 +79,7 @@ def toString(fs: frozenset):
     return s
 
 A = [1,2,3,4]
+numberOfElements = len(A)
 partitionsList = list(partition(A))
 partitions = []
 for e in partitionsList:
@@ -83,17 +87,37 @@ for e in partitionsList:
     for fs in e:
         s.add(frozenset(fs))
     partitions.append(s)
-print(partitions[3])
-counter = 0
-for i in partitions:
-    if(i != partitions[3]):
-        asd = isKomplementum(partitions[3], i)
-        print(f"{toString(i)}: {asd}")
-        if(asd):
-            counter += 1
-print(f"complements: {counter}")
+# E = partitions[21]
+# print(E)
+# counter = -1
+# with open("results.txt", "w") as f:
+#     for i in partitions:
+#         if(i != E):
+#             asd = isKomplementum(E, i)
+#             f.write(f"{toString(i)}: {asd}\n")
+#             if(asd):
+#                 counter += 1
+# print(f"complements: {counter}")
 
+net = Network('1000px', '1000px')
+net.toggle_physics(False)
+net.add_nodes([toString(x) for x in partitions])
 
+edges = []
+for p in partitions:
+    for q in partitions:
+        if(p != q):
+            print(f"p: {toString(p)}\nq: {toString(q)}")
+            if(kisebb(p, q, numberOfElements)):
+                edges.append((toString(p), toString(q)))
+
+for e in edges:
+    net.add_edge(e[0], e[1])    
+
+print(f"p1: {partitions[2]}\np2: {partitions[4]}")
+print(kisebb(partitions[2], partitions[4], numberOfElements))
+
+net.show('ekviv.html')
 
 
 
