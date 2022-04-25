@@ -136,6 +136,7 @@ net.show('ekviv.html')
 
 
 
+
 # for x in partition(A):
 #     partitions.append([set(c) for c in x])
 # print(partitions)
