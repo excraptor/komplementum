@@ -1,0 +1,8 @@
+nézzük meg hogy párosításokkal mi a helyzet
+két osztály, hány darab komplementum lehetséges
+    hány darab párosítás van összesen
+    nem cska max bármi
+mi van ha az osztályok csúcsok, és feszítőfát rakunk a vonalakra párosításoknál
+lekódolni a metszet/egyesítést
+    metszetet mondjuk szomszédsági mátrixszal
+    

@@ -7,11 +7,10 @@
 # megnezni van e mas komplementum
 
 # calculate every possible partition of a list recursively
-from audioop import tostereo
-from os import remove
-from lattice import metszet, egyesites, kisebb
-from pyvis.network import Network
 
+import functools
+from lattice import metszet, egyesites, kisebb, toClasses, toRelations
+from pyvis.network import Network
 
 
 def partition(collection):
@@ -78,7 +77,29 @@ def toString(fs: frozenset):
     s+="}"
     return s
 
-A = [1,2,3,4]
+def show():
+    net = Network('2000px', '2000px')
+    net.toggle_physics(False)
+    net.add_nodes([toString(x) for x in partitions])
+
+    edges = []
+    for p in partitions:
+        for q in partitions:
+            if(p != q):
+                # print(f"p: {toString(p)}\nq: {toString(q)}")
+                if(kisebb(p, q, numberOfElements)):
+                    edges.append((toString(p), toString(q)))
+
+    for e in edges:
+        net.add_edge(e[0], e[1])    
+
+    # print(f"p1: {partitions[2]}\np2: {partitions[4]}")
+    # print(kisebb(partitions[2], partitions[4], numberOfElements))
+
+    net.show('ekviv.html')
+
+
+A = [1,2,3,4,5,6,7,8]
 numberOfElements = len(A)
 partitionsList = list(partition(A))
 partitions = []
@@ -87,38 +108,33 @@ for e in partitionsList:
     for fs in e:
         s.add(frozenset(fs))
     partitions.append(s)
-E = partitions[53]
+# E = partitions[53]
+# F = partitions[4]
+E = partitions[15]
+print(E)
+# join = egyesites(E, F)
+# print(toClasses(join))
 
 
-counter = -1
+def compareEquivs(e, f):
+    return len(e) - len(f)
+
+counter = 0
 with open("results.txt", "w") as f:
     f.write(f"{E}\n")
-    for i in partitions:
+    partitionsSorted = sorted(partitions, key=functools.cmp_to_key(compareEquivs))
+    for i in [sorted(c, key=functools.cmp_to_key(compareEquivs)) for c in partitionsSorted]:
         if(i != E):
             asd = isKomplementum(E, i)
-            f.write(f"{toString(i)}: {asd}\n")
+            if(asd):
+                #f.write(f"{toString(i)}: {asd}\n")
+                f.write(f"{[sorted(c) for c in i]}\n")
             if(asd):
                 counter += 1
     f.write(f"complements: {counter}\n")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print([sorted(c) for c in E])
+# show()
 
 # for x in partition(A):
 #     partitions.append([set(c) for c in x])
@@ -137,3 +153,4 @@ with open("results.txt", "w") as f:
 #         candidates.append(candidate)
 
 # print(f"ezek kozul amire igaz a feltetel: {candidates}")
+
