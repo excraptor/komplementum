@@ -8,8 +8,11 @@
 
 # calculate every possible partition of a list recursively
 
+from codecs import getreader
 import functools
-from lattice import metszet, egyesites, kisebb, toClasses, toRelations
+
+from matplotlib.pyplot import get
+from lattice import lessForTypes, metszet, egyesites, kisebb, toClasses, toRelations
 from pyvis.network import Network
 
 
@@ -77,7 +80,7 @@ def toString(fs: frozenset):
     s+="}"
     return s
 
-def show():
+def show(partitions, isForTypes=False):
     net = Network('2000px', '2000px')
     net.toggle_physics(False)
     net.add_nodes([toString(x) for x in partitions])
@@ -87,8 +90,12 @@ def show():
         for q in partitions:
             if(p != q):
                 # print(f"p: {toString(p)}\nq: {toString(q)}")
-                if(kisebb(p, q, numberOfElements)):
-                    edges.append((toString(p), toString(q)))
+                if(isForTypes):
+                    if(lessForTypes(p, q)):
+                        edges.append((toString(p), toString(q)))
+                else:
+                    if(kisebb(p, q, numberOfElements)):
+                        edges.append((toString(p), toString(q)))
 
     for e in edges:
         net.add_edge(e[0], e[1])    
@@ -97,6 +104,53 @@ def show():
     # print(kisebb(partitions[2], partitions[4], numberOfElements))
 
     net.show('ekviv.html')
+
+def isSameType(a, b):
+    """
+    assuming its sorted
+    """
+    return getTypeOfPartition(a) == getTypeOfPartition(b)
+    
+
+def getTypeOfPartition(partition):
+    """
+    assuming its sorted
+    """
+    res = ""
+    for c in partition:
+        res += str(len(c)) + "+"
+    return res[:-1]
+    
+
+def calculateTypes(partitions):
+    res = dict()
+    for eq in partitions:
+        eqType = getTypeOfPartition(eq)
+        if(eqType in res.keys()):
+            res[eqType] += 1
+        else:
+            res[eqType] = 1
+    return res
+
+def getComplements(partitions, c):
+    """
+    assuming partitions are sorted
+    """
+    res = []
+    for p in partitions:
+        if(p != c):
+            if(isKomplementum(c, p)):
+                res.append(p)
+    return res
+
+def getRepresentants(types, partitions):
+    res = []
+    for t in types:
+        for p in partitions:
+            if(getTypeOfPartition(p) == t):
+                res.append(p)
+                break
+    return res
 
 
 A = [1,2,3,4,5,6,7,8]
@@ -110,8 +164,9 @@ for e in partitionsList:
     partitions.append(s)
 # E = partitions[53]
 # F = partitions[4]
-E = partitions[15]
+E = partitions[80]
 print(E)
+
 # join = egyesites(E, F)
 # print(toClasses(join))
 
@@ -134,7 +189,13 @@ with open("results.txt", "w") as f:
     f.write(f"complements: {counter}\n")
 
 print([sorted(c) for c in E])
-# show()
+partitionsSorted = sorted(partitions, key=functools.cmp_to_key(compareEquivs))
+partitions = [sorted(c, key=functools.cmp_to_key(compareEquivs)) for c in partitionsSorted]
+types = calculateTypes(getComplements(partitions, E)).keys()
+representants = getRepresentants(types, partitions)
+print(types)
+print(f"type: {getTypeOfPartition(E)}")
+show(representants, True)
 
 
 # for x in partition(A):

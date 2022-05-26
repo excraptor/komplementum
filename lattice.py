@@ -63,7 +63,7 @@ def toClasses(relations):
     return res
 
 def egyesites(a, b):
-    closure = toRelations(a.union(b))
+    closure = toRelations(set(a).union(set(b)))
     while True:
         new_relations = set((x,w) for x,y in closure for q,w in closure if q == y)
 
@@ -92,3 +92,10 @@ def kisebb(a, b, numOfElements):
     if((len(a) == numOfElements and len(b) != numOfElements -1) or (len(b) == numOfElements and len(a) != numOfElements -1) or (len(a) == 1 and len(b) != 2) or (len(b) == 1 and len(a) != 2)):
         return False
     return (m == a and e == b) or (m == b and e == a)
+
+def lessForTypes(a, b):
+    for ca in a:
+        for cb in a:
+            if(ca != cb and ca.union(cb) in b):
+                return True
+    return False
