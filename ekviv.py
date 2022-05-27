@@ -11,7 +11,6 @@
 from codecs import getreader
 import functools
 
-from matplotlib.pyplot import get
 from lattice import lessForTypes, metszet, egyesites, kisebb, toClasses, toRelations
 from pyvis.network import Network
 
@@ -65,6 +64,7 @@ def maxEgyMetszet(elem, komplementumCandidate):
     return True
 
 def isKomplementum(elem1, elem2):
+    numberOfElements = functools.reduce(lambda x,y: len(x)+len(y), elem1)
     return len(metszet(elem1, elem2)) == numberOfElements and len(egyesites(elem1, elem2)) == 1
 
 def toString(fs: frozenset):
@@ -152,67 +152,44 @@ def getRepresentants(types, partitions):
                 break
     return res
 
-
-A = [1,2,3,4,5,6,7,8]
-numberOfElements = len(A)
-partitionsList = list(partition(A))
-partitions = []
-for e in partitionsList:
-    s = set()
-    for fs in e:
-        s.add(frozenset(fs))
-    partitions.append(s)
-# E = partitions[53]
-# F = partitions[4]
-E = partitions[80]
-print(E)
-
-# join = egyesites(E, F)
-# print(toClasses(join))
-
-
 def compareEquivs(e, f):
-    return len(e) - len(f)
+        return len(e) - len(f)
 
-counter = 0
-with open("results.txt", "w") as f:
-    f.write(f"{E}\n")
+def _stuff():
+    A = [1,2,3,4,5,6,7,8]
+    numberOfElements = len(A)
+    partitionsList = list(partition(A))
+    partitions = []
+    for e in partitionsList:
+        s = set()
+        for fs in e:
+            s.add(frozenset(fs))
+        partitions.append(s)
+    # E = partitions[53]
+    # F = partitions[4]
+    E = partitions[80]
+    print(E)
+
+    counter = 0
+    with open("results.txt", "w") as f:
+        f.write(f"{E}\n")
+        partitionsSorted = sorted(partitions, key=functools.cmp_to_key(compareEquivs))
+        for i in [sorted(c, key=functools.cmp_to_key(compareEquivs)) for c in partitionsSorted]:
+            if(i != E):
+                asd = isKomplementum(E, i)
+                if(asd):
+                    #f.write(f"{toString(i)}: {asd}\n")
+                    f.write(f"{[sorted(c) for c in i]}\n")
+                if(asd):
+                    counter += 1
+        f.write(f"complements: {counter}\n")
+
+    print([sorted(c) for c in E])
     partitionsSorted = sorted(partitions, key=functools.cmp_to_key(compareEquivs))
-    for i in [sorted(c, key=functools.cmp_to_key(compareEquivs)) for c in partitionsSorted]:
-        if(i != E):
-            asd = isKomplementum(E, i)
-            if(asd):
-                #f.write(f"{toString(i)}: {asd}\n")
-                f.write(f"{[sorted(c) for c in i]}\n")
-            if(asd):
-                counter += 1
-    f.write(f"complements: {counter}\n")
-
-print([sorted(c) for c in E])
-partitionsSorted = sorted(partitions, key=functools.cmp_to_key(compareEquivs))
-partitions = [sorted(c, key=functools.cmp_to_key(compareEquivs)) for c in partitionsSorted]
-types = calculateTypes(getComplements(partitions, E)).keys()
-representants = getRepresentants(types, partitions)
-print(types)
-print(f"type: {getTypeOfPartition(E)}")
-show(representants, True)
-
-
-# for x in partition(A):
-#     partitions.append([set(c) for c in x])
-# print(partitions)
-# print("######")
-# elem = [x for x in partitions if len(x) == 2][0]
-# k = komplementum(elem)
-# print(f"osztalyozas: {elem}")
-# print(f"egy komplementum: {k}")
-# komplementumCandidates = [x for x in partitions if len(x) == len(k)]
-# print(f"lehetseges komplementumok: {komplementumCandidates}")
-
-# candidates = []
-# for candidate in komplementumCandidates:
-#     if(maxEgyMetszet(elem, candidate)):
-#         candidates.append(candidate)
-
-# print(f"ezek kozul amire igaz a feltetel: {candidates}")
+    partitions = [sorted(c, key=functools.cmp_to_key(compareEquivs)) for c in partitionsSorted]
+    types = calculateTypes(getComplements(partitions, E)).keys()
+    representants = getRepresentants(types, partitions)
+    print(types)
+    print(f"type: {getTypeOfPartition(E)}")
+    show(representants, True)
 
