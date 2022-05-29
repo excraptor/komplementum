@@ -64,7 +64,9 @@ def maxEgyMetszet(elem, komplementumCandidate):
     return True
 
 def isKomplementum(elem1, elem2):
-    numberOfElements = functools.reduce(lambda x,y: len(x)+len(y), elem1)
+    # print(f"elem1: {elem1}")
+    # print(f"elem1.1: {elem1[0]}")
+    numberOfElements = functools.reduce(lambda x,y: x+y, list(map(lambda x: len(x), elem1)))
     return len(metszet(elem1, elem2)) == numberOfElements and len(egyesites(elem1, elem2)) == 1
 
 def toString(fs: frozenset):
@@ -122,7 +124,7 @@ def getTypeOfPartition(partition):
     return res[:-1]
     
 
-def calculateTypes(partitions):
+def getTypes(partitions):
     res = dict()
     for eq in partitions:
         eqType = getTypeOfPartition(eq)
@@ -154,6 +156,12 @@ def getRepresentants(types, partitions):
 
 def compareEquivs(e, f):
         return len(e) - len(f)
+
+def prettyDict(dict: dict):
+    res = "{\n\t"
+    for (key, value) in dict.items():
+        res += str(key) + ": " + str(value) + "\n\t"
+    return res + "\n}"
 
 def _stuff():
     A = [1,2,3,4,5,6,7,8]
@@ -187,7 +195,7 @@ def _stuff():
     print([sorted(c) for c in E])
     partitionsSorted = sorted(partitions, key=functools.cmp_to_key(compareEquivs))
     partitions = [sorted(c, key=functools.cmp_to_key(compareEquivs)) for c in partitionsSorted]
-    types = calculateTypes(getComplements(partitions, E)).keys()
+    types = getTypes(getComplements(partitions, E)).keys()
     representants = getRepresentants(types, partitions)
     print(types)
     print(f"type: {getTypeOfPartition(E)}")
