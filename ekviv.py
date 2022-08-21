@@ -29,33 +29,6 @@ def partition(collection):
         yield [ [ first ] ] + smaller
 
 
-def komplementum1(osztalyozas):
-    # vegigmegyunk az osszes osztalyon
-    # mindegyikbol csinalunk ilyen parokat, hogy hozzaveszunk a kovi osztalybol egy elemet
-    ret = []
-    for t in range(len(osztalyozas)-1):
-        kapcsolo = [osztalyozas[t][-1], osztalyozas[t+1][0]]
-        ret.append(kapcsolo) 
-    
-    # nem jo: lehet olyan is hogy tobb osztaly olvad egybe
-    # minden olyan osztalyt ossze kell olvasztani, amiben van ugyanolyan elem
-    for i,k in enumerate(ret):
-        if(i+1 < len(ret) and k[-1] == ret[i+1][0]):
-            ret.append(list({*ret[i], *ret[i+1]}))
-            ret.pop(i+1)
-            ret.pop(i)
-    
-
-    for a in A:
-        found = False
-        for c in ret:
-            if(a in c):
-                found = True
-        if(not found):
-            ret.append([a])
-    return ret
-
-
 def maxEgyMetszet(elem, komplementumCandidate):
     for c in komplementumCandidate:
         for osztaly in elem:
@@ -82,30 +55,30 @@ def toString(fs: frozenset):
     s+="}"
     return s
 
-def show(partitions, isForTypes=False):
-    net = Network('2000px', '2000px')
-    net.toggle_physics(False)
-    net.add_nodes([toString(x) for x in partitions])
+# def show(partitions, isForTypes=False):
+#     net = Network('2000px', '2000px')
+#     net.toggle_physics(False)
+#     net.add_nodes([toString(x) for x in partitions])
 
-    edges = []
-    for p in partitions:
-        for q in partitions:
-            if(p != q):
-                # print(f"p: {toString(p)}\nq: {toString(q)}")
-                if(isForTypes):
-                    if(lessForTypes(p, q)):
-                        edges.append((toString(p), toString(q)))
-                else:
-                    if(kisebb(p, q, numberOfElements)):
-                        edges.append((toString(p), toString(q)))
+#     edges = []
+#     for p in partitions:
+#         for q in partitions:
+#             if(p != q):
+#                 # print(f"p: {toString(p)}\nq: {toString(q)}")
+#                 if(isForTypes):
+#                     if(lessForTypes(p, q)):
+#                         edges.append((toString(p), toString(q)))
+#                 else:
+#                     if(kisebb(p, q, numberOfElements)):
+#                         edges.append((toString(p), toString(q)))
 
-    for e in edges:
-        net.add_edge(e[0], e[1])    
+#     for e in edges:
+#         net.add_edge(e[0], e[1])    
 
-    # print(f"p1: {partitions[2]}\np2: {partitions[4]}")
-    # print(kisebb(partitions[2], partitions[4], numberOfElements))
+#     # print(f"p1: {partitions[2]}\np2: {partitions[4]}")
+#     # print(kisebb(partitions[2], partitions[4], numberOfElements))
 
-    net.show('ekviv.html')
+#     net.show('ekviv.html')
 
 def isSameType(a, b):
     """
@@ -199,5 +172,5 @@ def _stuff():
     representants = getRepresentants(types, partitions)
     print(types)
     print(f"type: {getTypeOfPartition(E)}")
-    show(representants, True)
+    # show(representants, True)
 

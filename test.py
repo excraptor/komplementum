@@ -1,8 +1,5 @@
 import functools
 import ekviv as eq
-from scipy.interpolate import lagrange
-import matplotlib.pyplot as plt
-import numpy as np
 
 def generatePartitions(fromList):
     partitionsList = list(eq.partition(fromList))
@@ -43,20 +40,34 @@ def whyIsItOdd():
     representants = eq.getRepresentants(types, partitions)
     return eq.getComplements(partitions=partitions, c=representants[3])
 
-def testCubicSpline(x,y):
-    cs = lagrange(x,y)
-    print(cs)
-    print(f"8: {cs(8)}, 9: {cs(9)}, 10: {cs(10)}")
-
 def testMax(repr, A):
     partitionsUnsorted = generatePartitions(fromList = A)
     partitions = sortPartitions(partitionsUnsorted)
     complements = eq.getComplements(partitions, repr)
     print(complements)
 
+def feldarabolos():
+    A = [1,2,3,4,5,6]
+    partitionsUnsorted = generatePartitions(fromList = A)
+    partitions = sortPartitions(partitionsUnsorted)
+    # types = eq.getTypes(partitions)
+    # representants = eq.getRepresentants(types, partitions)
+    s = [frozenset({1, 2, 3}), frozenset({4, 5, 6})]
+    r = eq.getComplements(partitions, s)
+    ss = [frozenset({1, 2}), frozenset({3}), frozenset({4, 5}), frozenset({6})]
+    rr = eq.getComplements(partitions, ss)
+    with open("feldarabolos.txt", "w") as f:
+        for c in r:
+            if c not in rr:
+                f.write(f"{c}\n")
+            
+    return len(r) - len(rr)
+
 def main():
-    numOfComplements = interpolationDataPoints()
-    print(numOfComplements)
+    res = feldarabolos()
+    print(res)
+    # numOfComplements = interpolationDataPoints()
+    # print(numOfComplements)
     # testMax([frozenset({3, 4}), frozenset({5, 6}), frozenset({1, 2})], [1,2,3,4,5,6])
     # print("####")
     # odd = whyIsItOdd()
