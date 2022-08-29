@@ -136,6 +136,17 @@ def prettyDict(dict: dict):
         res += str(key) + ": " + str(value) + "\n\t"
     return res + "\n}"
 
+def contains(eq1, eq2):
+    if(equals(metszet(eq1, eq2), eq2)):
+        return True
+    return False
+
+def equals(eq1, eq2):
+    for c in eq1:
+        if c not in eq2:
+            return False
+    return True
+
 def _stuff():
     A = [1,2,3,4,5,6,7,8]
     numberOfElements = len(A)

@@ -17,7 +17,7 @@ def sortPartitions(partitionsToSort):
     return partitions
 
 def interpolationDataPoints():
-    A = [1,2,3,4,5,6,7,8,9,10,11,12]
+    A = [1,2,3,4,5,6,7,8]
     partitionsUnsorted = generatePartitions(fromList = A)
     partitions = sortPartitions(partitionsUnsorted)
     types = eq.getTypes(partitions)
@@ -25,7 +25,7 @@ def interpolationDataPoints():
     numOfComplements = dict()
     # print(f"representants: {representants}")
     for r in representants:
-        #print(f"r: {r}")
+        print(f"r: {r}")
         complements = eq.getComplements(partitions=partitions, c=r)
         numOfComplements[eq.toString(r)] = len(complements)
     
@@ -47,27 +47,64 @@ def testMax(repr, A):
     print(complements)
 
 def feldarabolos():
+    A = [1,2,3,4,5,6,7,8]
+    partitionsUnsorted = generatePartitions(fromList = A)
+    partitions = sortPartitions(partitionsUnsorted)
+    # types = eq.getTypes(partitions)
+    # representants = eq.getRepresentants(types, partitions)
+    r = [frozenset({1, 2, 3}), frozenset({4, 5, 6}), frozenset({7, 8})]
+    s = eq.getComplements(partitions, r)
+    rr = [frozenset({1, 2}), frozenset({3}), frozenset({4, 5}), frozenset({6}), frozenset({7, 8})]
+    ss = eq.getComplements(partitions, rr)
+
+    # ssDict = dict.fromkeys(ss, False)
+    with open("feldarabolos.txt", "w") as f:
+        for c in s:
+            f.write(f"{c}-et tartalmazo s'-k:\n")
+            for cc in ss:
+                if eq.contains(cc, c):
+                    f.write(f"{cc}\n")
+                    ss.remove(cc)
+            f.write("\n")
+            
+        f.write(f"maradek: {len(ss)}\n")
+        for k in ss:
+            f.write(f"{k}\n")
+
+    return len(s) - len(ss)
+
+def feldarabolosKicsi():
     A = [1,2,3,4,5,6]
     partitionsUnsorted = generatePartitions(fromList = A)
     partitions = sortPartitions(partitionsUnsorted)
     # types = eq.getTypes(partitions)
     # representants = eq.getRepresentants(types, partitions)
-    s = [frozenset({1, 2, 3}), frozenset({4, 5, 6})]
-    r = eq.getComplements(partitions, s)
-    ss = [frozenset({1, 2}), frozenset({3}), frozenset({4, 5}), frozenset({6})]
-    rr = eq.getComplements(partitions, ss)
+    r = [frozenset({1, 2, 3}), frozenset({4, 5, 6})]
+    s = eq.getComplements(partitions, r)
+    rr = [frozenset({1, 2}), frozenset({3}), frozenset({4, 5}), frozenset({6})]
+    ss = eq.getComplements(partitions, rr)
+
+    # ssDict = dict.fromkeys(ss, False)
     with open("feldarabolos.txt", "w") as f:
-        for c in r:
-            if c not in rr:
-                f.write(f"{c}\n")
+        for c in s:
+            f.write(f"{c}-et tartalmazo s'-k:\n")
+            for cc in ss:
+                if eq.contains(cc, c):
+                    f.write(f"{cc}\n")
+                    ss.remove(cc)
+            f.write("\n")
             
-    return len(r) - len(rr)
+        f.write(f"maradek: {len(ss)}\n")
+        for k in ss:
+            f.write(f"{k}\n")
+
+    return len(s) - len(ss)
 
 def main():
-    res = feldarabolos()
-    print(res)
-    # numOfComplements = interpolationDataPoints()
-    # print(numOfComplements)
+    # res = feldarabolosKicsi()
+    # print(res)
+    numOfComplements = interpolationDataPoints()
+    print(numOfComplements)
     # testMax([frozenset({3, 4}), frozenset({5, 6}), frozenset({1, 2})], [1,2,3,4,5,6])
     # print("####")
     # odd = whyIsItOdd()

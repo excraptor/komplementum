@@ -1,0 +1,111 @@
+[frozenset({3, 4}), frozenset({2, 5}), frozenset({1, 6})]-et tartalmazo s'-k:
+[frozenset({2, 5}), frozenset({1, 3, 4, 6})]
+[frozenset({3, 4}), frozenset({2, 5}), frozenset({1, 6})]
+
+[frozenset({3, 4}), frozenset({1, 5}), frozenset({2, 6})]-et tartalmazo s'-k:
+[frozenset({1, 5}), frozenset({2, 3, 4, 6})]
+[frozenset({3, 4}), frozenset({1, 5}), frozenset({2, 6})]
+
+[frozenset({1, 6}), frozenset({2, 4}), frozenset({3, 5})]-et tartalmazo s'-k:
+[frozenset({2, 4}), frozenset({1, 3, 5, 6})]
+[frozenset({1, 6}), frozenset({2, 4}), frozenset({3, 5})]
+
+[frozenset({1, 4}), frozenset({3, 5}), frozenset({2, 6})]-et tartalmazo s'-k:
+[frozenset({1, 4}), frozenset({2, 3, 5, 6})]
+[frozenset({1, 4}), frozenset({3, 5}), frozenset({2, 6})]
+
+[frozenset({2, 4}), frozenset({3, 6}), frozenset({1, 5})]-et tartalmazo s'-k:
+
+[frozenset({1, 4}), frozenset({2, 5}), frozenset({3, 6})]-et tartalmazo s'-k:
+
+[frozenset({1}), frozenset({6}), frozenset({3, 4}), frozenset({2, 5})]-et tartalmazo s'-k:
+[frozenset({1, 3, 4}), frozenset({2, 5, 6})]
+[frozenset({1}), frozenset({3, 4}), frozenset({2, 5, 6})]
+[frozenset({1}), frozenset({2, 5}), frozenset({3, 4, 6})]
+
+[frozenset({1}), frozenset({5}), frozenset({3, 4}), frozenset({2, 6})]-et tartalmazo s'-k:
+[frozenset({5}), frozenset({1}), frozenset({2, 3, 4, 6})]
+[frozenset({5}), frozenset({2, 6}), frozenset({1, 3, 4})]
+
+[frozenset({2}), frozenset({6}), frozenset({3, 4}), frozenset({1, 5})]-et tartalmazo s'-k:
+[frozenset({2, 3, 4}), frozenset({1, 5, 6})]
+[frozenset({2}), frozenset({3, 4}), frozenset({1, 5, 6})]
+[frozenset({2}), frozenset({1, 5}), frozenset({3, 4, 6})]
+
+[frozenset({2}), frozenset({5}), frozenset({3, 4}), frozenset({1, 6})]-et tartalmazo s'-k:
+[frozenset({5}), frozenset({2}), frozenset({1, 3, 4, 6})]
+[frozenset({5}), frozenset({1, 6}), frozenset({2, 3, 4})]
+
+[frozenset({1}), frozenset({6}), frozenset({2, 4}), frozenset({3, 5})]-et tartalmazo s'-k:
+[frozenset({2, 4, 6}), frozenset({1, 3, 5})]
+[frozenset({1}), frozenset({2, 4}), frozenset({3, 5, 6})]
+[frozenset({1}), frozenset({3, 5}), frozenset({2, 4, 6})]
+
+[frozenset({1}), frozenset({4}), frozenset({2, 6}), frozenset({3, 5})]-et tartalmazo s'-k:
+[frozenset({1}), frozenset({4}), frozenset({2, 3, 5, 6})]
+[frozenset({4}), frozenset({2, 6}), frozenset({1, 3, 5})]
+
+[frozenset({2}), frozenset({6}), frozenset({1, 4}), frozenset({3, 5})]-et tartalmazo s'-k:
+[frozenset({2, 3, 5}), frozenset({1, 4, 6})]
+[frozenset({2}), frozenset({1, 4}), frozenset({3, 5, 6})]
+[frozenset({2}), frozenset({3, 5}), frozenset({1, 4, 6})]
+
+[frozenset({2}), frozenset({4}), frozenset({1, 6}), frozenset({3, 5})]-et tartalmazo s'-k:
+[frozenset({2}), frozenset({4}), frozenset({1, 3, 5, 6})]
+[frozenset({4}), frozenset({1, 6}), frozenset({2, 3, 5})]
+
+[frozenset({5}), frozenset({1}), frozenset({2, 4}), frozenset({3, 6})]-et tartalmazo s'-k:
+[frozenset({5}), frozenset({2, 4}), frozenset({1, 3, 6})]
+
+[frozenset({1}), frozenset({4}), frozenset({2, 5}), frozenset({3, 6})]-et tartalmazo s'-k:
+[frozenset({4}), frozenset({2, 5}), frozenset({1, 3, 6})]
+
+[frozenset({5}), frozenset({2}), frozenset({1, 4}), frozenset({3, 6})]-et tartalmazo s'-k:
+[frozenset({5}), frozenset({1, 4}), frozenset({2, 3, 6})]
+
+[frozenset({2}), frozenset({4}), frozenset({3, 6}), frozenset({1, 5})]-et tartalmazo s'-k:
+[frozenset({4}), frozenset({1, 5}), frozenset({2, 3, 6})]
+
+[frozenset({3}), frozenset({6}), frozenset({2, 4}), frozenset({1, 5})]-et tartalmazo s'-k:
+
+[frozenset({3}), frozenset({5}), frozenset({2, 4}), frozenset({1, 6})]-et tartalmazo s'-k:
+
+[frozenset({3}), frozenset({6}), frozenset({1, 4}), frozenset({2, 5})]-et tartalmazo s'-k:
+
+[frozenset({3}), frozenset({4}), frozenset({2, 5}), frozenset({1, 6})]-et tartalmazo s'-k:
+
+[frozenset({3}), frozenset({5}), frozenset({1, 4}), frozenset({2, 6})]-et tartalmazo s'-k:
+
+[frozenset({3}), frozenset({4}), frozenset({1, 5}), frozenset({2, 6})]-et tartalmazo s'-k:
+
+[frozenset({2}), frozenset({1}), frozenset({6}), frozenset({5}), frozenset({3, 4})]-et tartalmazo s'-k:
+[frozenset({1}), frozenset({5, 6}), frozenset({2, 3, 4})]
+
+[frozenset({2}), frozenset({1}), frozenset({6}), frozenset({4}), frozenset({3, 5})]-et tartalmazo s'-k:
+[frozenset({1}), frozenset({4, 6}), frozenset({2, 3, 5})]
+
+[frozenset({2}), frozenset({1}), frozenset({5}), frozenset({4}), frozenset({3, 6})]-et tartalmazo s'-k:
+
+[frozenset({3}), frozenset({1}), frozenset({6}), frozenset({5}), frozenset({2, 4})]-et tartalmazo s'-k:
+[frozenset({2, 4}), frozenset({5, 6}), frozenset({1, 3})]
+[frozenset({5}), frozenset({1, 3}), frozenset({2, 4, 6})]
+
+[frozenset({3}), frozenset({1}), frozenset({6}), frozenset({4}), frozenset({2, 5})]-et tartalmazo s'-k:
+[frozenset({4}), frozenset({1, 3}), frozenset({2, 5, 6})]
+[frozenset({4, 6}), frozenset({1, 3}), frozenset({2, 5})]
+
+[frozenset({3}), frozenset({1}), frozenset({5}), frozenset({4}), frozenset({2, 6})]-et tartalmazo s'-k:
+
+[frozenset({2}), frozenset({3}), frozenset({6}), frozenset({5}), frozenset({1, 4})]-et tartalmazo s'-k:
+[frozenset({2}), frozenset({5, 6}), frozenset({1, 3, 4})]
+[frozenset({5}), frozenset({2, 3}), frozenset({1, 4, 6})]
+
+[frozenset({2}), frozenset({3}), frozenset({6}), frozenset({4}), frozenset({1, 5})]-et tartalmazo s'-k:
+[frozenset({4}), frozenset({2, 3}), frozenset({1, 5, 6})]
+[frozenset({4, 6}), frozenset({1, 5}), frozenset({2, 3})]
+
+[frozenset({2}), frozenset({3}), frozenset({4}), frozenset({5}), frozenset({1, 6})]-et tartalmazo s'-k:
+
+maradek: 2
+[frozenset({5, 6}), frozenset({1, 4}), frozenset({2, 3})]
+[frozenset({2}), frozenset({4, 6}), frozenset({1, 3, 5})]
