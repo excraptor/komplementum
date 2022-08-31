@@ -1,5 +1,8 @@
+from audioop import maxpp
+import enum
 import functools
 import ekviv as eq
+import fordfulkerson as ff
 
 def generatePartitions(fromList):
     partitionsList = list(eq.partition(fromList))
@@ -73,16 +76,25 @@ def feldarabolos():
 
     return len(s) - len(ss)
 
-def feldarabolosKicsi():
-    A = [1,2,3,4,5,6]
+def feldarabolosKicsi(r, rr, n):
+    A = [i for i in range(1, n+1)]
     partitionsUnsorted = generatePartitions(fromList = A)
     partitions = sortPartitions(partitionsUnsorted)
     # types = eq.getTypes(partitions)
     # representants = eq.getRepresentants(types, partitions)
-    r = [frozenset({1, 2, 3}), frozenset({4, 5, 6})]
     s = eq.getComplements(partitions, r)
-    rr = [frozenset({1, 2}), frozenset({3}), frozenset({4, 5}), frozenset({6})]
     ss = eq.getComplements(partitions, rr)
+
+    d = dict()
+    for c in s:
+        for cc in ss:
+            if eq.contains(cc, c):
+                if(eq.toString(c) in d.keys()):
+                    d[eq.toString(c)].append(eq.toString(cc))
+                else:
+                    d[eq.toString(c)] = []
+    
+    maxPairing([eq.toString(c) for c in s], [eq.toString(c) for c in ss], d)
 
     # ssDict = dict.fromkeys(ss, False)
     with open("feldarabolos.txt", "w") as f:
@@ -100,11 +112,47 @@ def feldarabolosKicsi():
 
     return len(s) - len(ss)
 
+# kellenek az eredeti komplementumai, a feldarabolté, plusz az "élek", ami egy dict most
+def maxPairing(rowData, colData, d):
+    graph = [[0 for _ in range(len(colData))] for _ in range(len(rowData))]
+    
+    # vegigmegyunk az osszes eredeti komplementumon
+    for i, c in enumerate(rowData):
+        # megnezzuk az ehhez tartozokat
+        for cc in d[c]:
+            # kivalasztjuk, hogy hanyadik ez, oda kell egy egyes
+            j = colData.index(cc)
+            graph[i][j] = 1
+    
+    g = ff.GFG(graph)
+    result, matchings = g.maxBPM()
+    print ("Maximum number of applicants that can get job is %d " % result)
+    with open("feldarabolos_pairing.txt", "w") as f:
+        kimaradt = []
+        kiiratott = dict.fromkeys(rowData, False)
+        for ccIDX, cIDX in enumerate(matchings):
+            if(cIDX != -1):
+                f.write(f"{rowData[cIDX]} parja:\n{colData[ccIDX]}\n\n")
+                kiiratott[rowData[cIDX]] = True
+            else:
+                kimaradt.append(colData[ccIDX])
+        f.write("kimaradt:\n")
+        for k in kimaradt:
+            f.write(f"{k}\n")
+        f.write("nem lett parja:\n")
+        for (k, v) in kiiratott.items():
+            if(not v):
+                f.write(f"{k}\n")
+
+
+
 def main():
-    # res = feldarabolosKicsi()
-    # print(res)
-    numOfComplements = interpolationDataPoints()
-    print(numOfComplements)
+    r = [frozenset({1, 2, 3}), frozenset({4, 5, 6}), frozenset({7, 8})]
+    rr = [frozenset({1, 2}), frozenset({3}), frozenset({4, 5}), frozenset({6}), frozenset({7, 8})]
+    res = feldarabolosKicsi(r, rr, n = 8)
+    print(res)
+    # numOfComplements = interpolationDataPoints()
+    # print(numOfComplements)
     # testMax([frozenset({3, 4}), frozenset({5, 6}), frozenset({1, 2})], [1,2,3,4,5,6])
     # print("####")
     # odd = whyIsItOdd()
