@@ -6,3 +6,8 @@ mi van ha az osztályok csúcsok, és feszítőfát rakunk a vonalakra párosít
 lekódolni a metszet/egyesítést
     metszetet mondjuk szomszédsági mátrixszal
     
+
+
+ötlet: nézzük meg, hogy minimum hány osztálya van egy komplementumnak
+remélhetőleg ez egyesével növekszik mindenhol |c|-1-ig (egy db kételemű osztály max)
+és akkor meg kell mutatni, hogy a csupa kételeműeknek a legminimálisabb

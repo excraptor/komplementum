@@ -55,6 +55,17 @@ def toString(fs: frozenset):
     s+="}"
     return s
 
+def adjacencyMatrixFromClasses(c):
+    n = functools.reduce(lambda x,y: x+y, list(map(lambda x: len(x), c)))
+    a = [[0 for _ in range(n)] for _ in range(n)]
+    for cc in c:
+        for i in cc:
+            for j in cc:
+                a[i-1][j-1] = 1 # because matrix rows are from 0 to n-1
+    return a
+
+        
+
 # def show(partitions, isForTypes=False):
 #     net = Network('2000px', '2000px')
 #     net.toggle_physics(False)
