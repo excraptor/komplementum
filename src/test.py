@@ -1,5 +1,3 @@
-from audioop import maxpp
-import enum
 import functools
 import ekviv as eq
 import fordfulkerson as ff
@@ -19,8 +17,8 @@ def sortPartitions(partitionsToSort):
     partitions = [sorted(c, key=functools.cmp_to_key(eq.compareEquivs)) for c in partitionsSorted]
     return partitions
 
-def interpolationDataPoints():
-    A = [1,2,3,4,5,6,7,8]
+def numOfComplements(A):
+    # A = [1,2,3,4,5,6,7,8]
     partitionsUnsorted = generatePartitions(fromList = A)
     partitions = sortPartitions(partitionsUnsorted)
     types = eq.getTypes(partitions)
@@ -28,12 +26,13 @@ def interpolationDataPoints():
     numOfComplements = dict()
     # print(f"representants: {representants}")
     for r in representants:
-        print(f"r: {r}")
+        # print(f"r: {r}")
         complements = eq.getComplements(partitions=partitions, c=r)
         numOfComplements[eq.toString(r)] = len(complements)
     
     sortedRes = dict(sorted(numOfComplements.items(), key=lambda item: item[1]))
-    return eq.prettyDict(sortedRes)
+    return sortedRes
+    # return eq.prettyDict(sortedRes)
 
 def whyIsItOdd():
     A = [1,2,3,4,5,6]
@@ -301,15 +300,85 @@ def test5():
             f.write(f"{cc}\n")
             writeMatrix(f, a)
 
+def test5WithClasses():
+    
+    e1 = "1|2|3,4,5"
+    e2 = "1|2|3|4,5"
+
+    c1 = getComplementsOf(classToFrozenset(e1))
+    c2 = getComplementsOf(classToFrozenset(e2))
+
+    with open("feldarabolos_levagos_5.txt", "w") as f:
+        f.write(f"{eq.toString(classToFrozenset(e1))}\n\n")
+        
+        for cc in c1:
+            f.write(f"{eq.toString(cc)}\n")
+        
+        f.write("\n#########################################\n")
+
+        f.write(f"{eq.toString(classToFrozenset(e2))}\n\n")
+
+        for cc in c2:
+            f.write(f"{eq.toString(cc)}\n")
+        
+def pretty(c):
+    s = c.replace("}{", " | ").replace("{{", "").replace("}}", "")
+    return s
+
+def latexNumOfComplements():
+    A = [1,2]
+    s = "\\begin{center}\n"
+    for i in range(3, 7):
+        s += "\\begin{tabular}{ |c|c| }\n"
+        A.append(i)
+        num = numOfComplements(A)
+        for k, v in num.items():
+            if v != 1:
+                s += "\\hline\n"
+                s += f"{pretty(k)} & {v} \\\\\n"
+        s += "\\hline\n\\end{tabular}\n"
+    s += "\\end{center}\n"
+    return s
+
+def onesWithBig(e):
+    c2 = getComplementsOf(classToFrozenset(e))
+    for c in c2:
+        print(f"{pretty(eq.toString(c))} \\\\")
+
+def numOfComplementsPaperTest(pi, n):
+    m = len(pi)
+    print(f"m: {m}")
+    prod = 1
+    for c in pi:
+        prod *= len(c) 
+    return prod * (n-m+1)**(m-2)
+
 def main():
-    test5()
+    e = "1|2,3|4,5"
+    # asd = numOfComplementsPaperTest(classToFrozenset(e), 6)
+    asd = getComplementsOf(classToFrozenset(e))
+    with open('complements.txt', 'a') as f:
+        for c in asd:
+            f.write(f"{pretty(eq.toString(c))}\n")
+    # onesWithBig(e)
+    # # A = [1,2,3,4,5]
+    # # partitionsUnsorted = generatePartitions(fromList = A)
+    # # partitions = sortPartitions(partitionsUnsorted)
+    # # types = eq.getTypes(partitions)
+    # # representants = eq.getRepresentants(types, partitions)
+    # # for asd in [pretty(eq.toString(x)) for x in representants]:
+    # #     print(asd)
+    # with open("numOfComplementsLatex.txt", "w") as f:
+    #     s = latexNumOfComplements()
+    #     f.write(s)
+    # test5WithClasses()
     # getComplementsOf(classToFrozenset("1|2,3,4"))
     # r = [frozenset({1, 2, 3}), frozenset({4, 5, 6}), frozenset({7, 8})]
     # rr = [frozenset({1, 2}), frozenset({3}), frozenset({4, 5}), frozenset({6}), frozenset({7, 8})]
     # res = feldarabolosKicsi(r, rr, n = 8)
     # print(res)
-    # numOfComplements = interpolationDataPoints()
-    # print(numOfComplements)
+    # num = numOfComplements([1,2,3,4])
+    # print(num)
     # testMax([frozenset({3, 4}), frozenset({5, 6}), frozenset({1, 2})], [1,2,3,4,5,6])
     # print("####")
     # odd = whyIsItOdd()
